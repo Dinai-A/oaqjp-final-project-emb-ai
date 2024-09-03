@@ -11,14 +11,18 @@ def index_view():
 
 @app.route("/emotionDetector")
 def emotion_detector_view():
-    text_to_analyze = request.args["textToAnalyze"]
-    data = emotion_detector(text_to_analyze)
     response_str = (
-        f"For the given statement, the system response is 'anger': {data['anger']}, 'disgust': {data['disgust']},"
-        f" 'fear': {data['fear']}, 'joy': {data['joy']} and 'sadness': {data['sadness']}. "
-        f"The dominant emotion is {data['dominant_emotion']}."
+        "For the given statement, the system response is "
+        "'anger': {}, 'disgust': {}, 'fear': {}, 'joy': {} and 'sadness': {}. "
+        "The dominant emotion is {}."
     )
-    return response_str
+
+    text_to_analyze = request.args.get("textToAnalyze")
+    if text_to_analyze:
+        data = emotion_detector(text_to_analyze)
+        return (response_str.format(**data), 200)
+    else:
+        return (response_str.format(*(None for i in range(6))), 400)
 
 
 if __name__ == "__main__":
