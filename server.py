@@ -18,11 +18,11 @@ def emotion_detector_view():
     )
 
     text_to_analyze = request.args.get("textToAnalyze")
+    data = emotion_detector(text_to_analyze)
     if text_to_analyze:
-        data = emotion_detector(text_to_analyze)
-        return (response_str.format(**data), 200)
+        return (response_str.format(*data.values()), 200)
     else:
-        return (response_str.format(*(None for i in range(6))), 400)
+        return ("Invalid text! Please try again!", 400)
 
 
 if __name__ == "__main__":
